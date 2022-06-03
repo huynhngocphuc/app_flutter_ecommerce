@@ -122,9 +122,9 @@ Widget sidebar(BuildContext context){
 
                   if(connectionStatus){
                     print("đã vào đây");
-                    // Loader.showLoadingScreen(context, _keyLoader);
+                    Loader.showLoadingScreen(context, _keyLoader);
                     List orderData = await _checkoutService.listPlacedOrder();
-                    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
                     print("orderData : $orderData");
                     Navigator.popAndPushNamed(context, '/placedOrder',arguments: {'data': orderData});
                   }
@@ -133,30 +133,31 @@ Widget sidebar(BuildContext context){
                   }
                 },
               ),
-              // ListTile(
-              //   leading: Icon(Icons.favorite_border),
-              //   title: Text(
-              //     'WISHLIST',
-              //     style: TextStyle(
-              //         fontSize: 20.0,
-              //         fontWeight: FontWeight.bold,
-              //         letterSpacing: 1.0
-              //     ),
-              //   ),
-              //   onTap: () async{
-              //     bool connectionStatus = await _userService.checkInternetConnectivity();
-              //
-              //     if(connectionStatus){
-              //       Loader.showLoadingScreen(context, _keyLoader);
-              //       List userList = await _userService.userWishlist();
-              //       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-              //       Navigator.popAndPushNamed(context, '/wishlist',arguments: {'userList':userList});
-              //     }
-              //     else{
-              //       internetConnectionDialog(context);
-              //     }
-              //   },
-              // ),
+              ListTile(
+                leading: Icon(Icons.favorite_border),
+                title: Text(
+                  SBT_WISHlIST_TEXT,
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0
+                  ),
+                ),
+                onTap: ()async{
+                  bool connectionStatus = await _userService.checkInternetConnectivity();
+
+                  if(connectionStatus){
+                    Loader.showLoadingScreen(context, _keyLoader);
+                    List userList = await _userService.userWishlist();
+                    print("danh sach yeu thic $userList");
+                    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+                    Navigator.popAndPushNamed(context, '/wishlist',arguments: {'userList':userList});
+                  }
+                  else{
+                    internetConnectionDialog(context);
+                  }
+                },
+              ),
               ListTile(
                 leading: Icon(Icons.person),
                 title: Text(

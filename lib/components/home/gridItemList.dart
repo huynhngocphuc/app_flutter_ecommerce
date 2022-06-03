@@ -6,6 +6,8 @@ import 'package:app_frontend/services/productService.dart';
 import 'package:app_frontend/components/modals/internetConnection.dart';
 import 'package:app_frontend/services/userService.dart';
 
+import '../loader.dart';
+
 class GridItemList extends StatefulWidget {
   @override
   _GridItemListState createState() => _GridItemListState();
@@ -15,6 +17,7 @@ class _GridItemListState extends State<GridItemList> {
 
   ProductService _productService = new ProductService();
   UserService _userService = new UserService();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   _GridItemListState(){
     listFeaturedItems();
@@ -40,7 +43,9 @@ class _GridItemListState extends State<GridItemList> {
     bool connectionStatus = await _userService.checkInternetConnectivity();
     if(connectionStatus){
       String productId = item['productId'];
+      Loader.showLoadingScreen(context, _keyLoader);
       Map itemDetails = await _productService.particularItem(productId);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Navigator.push(
           context,
           CustomTransition(
@@ -51,6 +56,7 @@ class _GridItemListState extends State<GridItemList> {
               )
           )
       );
+
     }
     else{
       internetConnectionDialog(context);
@@ -98,7 +104,8 @@ class _GridItemListState extends State<GridItemList> {
                   showParticularItem(item);
                 },
                 child: GridTile(
-                  child: Image.network(
+                  //image firebase chage assett -> network
+                  child: Image.asset(
                     item['image'],
                     fit: BoxFit.cover,
                   ),

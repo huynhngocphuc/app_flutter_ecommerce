@@ -3,9 +3,10 @@ import 'package:app_frontend/sizeConfig.dart';
 
 class ProductButtons extends StatefulWidget {
   final void Function() addToShoppingBag;
-  final void Function() checkoutProduct;
+  // final void Function() checkoutProduct;
+  final void Function() addToWishList;
 
-  ProductButtons(this.addToShoppingBag,this.checkoutProduct);
+  ProductButtons(this.addToShoppingBag,this.addToWishList);
   @override
   _ProductButtonsState createState() => _ProductButtonsState();
 }
@@ -53,11 +54,11 @@ class _ProductButtonsState extends State<ProductButtons> {
               ),
               elevation: 16.0,
               onPressed: (){
-                widget.checkoutProduct();
+                widget.addToWishList();
               },
               color: Colors.black,
               child: Text(
-                'Mua',
+                'yêu thích ',
                 style: TextStyle(
                     fontFamily: 'NovaSquare',
                     fontSize: SizeConfig.safeBlockHorizontal * 5.0,

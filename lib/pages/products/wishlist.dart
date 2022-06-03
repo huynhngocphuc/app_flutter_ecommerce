@@ -59,20 +59,21 @@ class _WishListState extends State<WishList> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'It seems nothing is here',
+              'Chưa có sản phẩm yêu thích',
               style: TextStyle(
                 fontSize: 25.0,
                 fontFamily: 'NovaSquare',
               ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 10.0),
-            Text(
-              'Make a wish!',
-              style: TextStyle(
-                fontSize: 25.0,
-                fontFamily: 'NovaSquare',
-              ),
-            ),
+            // Text(
+            //   'Thêm 1 sp yêu thích!',
+            //   style: TextStyle(
+            //     fontSize: 25.0,
+            //     fontFamily: 'NovaSquare',
+            //   ),
+            // ),
             SizedBox(height: 20.0),
             Image.asset(
               'assets/emptyShoppingBag.png',
@@ -104,7 +105,7 @@ class _WishListState extends State<WishList> {
                   }
                 },
                 child: Text(
-                  'Shop',
+                  'Cửa hàng',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
@@ -122,9 +123,10 @@ class _WishListState extends State<WishList> {
   @override
   Widget build(BuildContext context) {
     setWishlistItems();
+
     return Scaffold(
       key: _scaffoldKey,
-      appBar: header('Wishlist', _scaffoldKey, showCartIcon, context),
+      appBar: header('Yêu thích', _scaffoldKey, showCartIcon, context),
       drawer: sidebar(context),
       body: Padding(
         padding: EdgeInsets.all(10.0),
@@ -141,10 +143,18 @@ class _WishListState extends State<WishList> {
                     SizedBox(
                       height: 120.0,
                       width: 140.0,
-                      child: Image.network(
-                        item['image'][0],
-                        fit: BoxFit.cover,
-                      ),
+                      child:
+                      // Image(
+                      //   image: NetworkImage(
+                      //       item['image'][0]
+                      //   ),
+                      //   height: 100.0,
+                      //   width: 120.0,
+                      //   fit: BoxFit.fill,
+                      // )
+
+                      //
+                      Image.asset('assets/mock_images/products/${item['image'][0]}.jpg')
                     ),
                     Expanded(
                       child: Padding(
@@ -171,6 +181,7 @@ class _WishListState extends State<WishList> {
                           ],
                         ),
                       ),
+
                     ),
                     IconButton(
                       icon: Icon(Icons.delete_outline),
@@ -180,6 +191,7 @@ class _WishListState extends State<WishList> {
                     )
                   ],
                 ),
+
               ),
             );
           },

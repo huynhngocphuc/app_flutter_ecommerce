@@ -23,6 +23,7 @@ const SBT_SHOP_TEXT = 'Cửa hàng';
 const SBT_BAG_TEXT = 'Giỏ hàng';
 const SBT_SEARCH_TEXT = 'Tìm kiếm';
 const SBT_ORDERS_TEXT = 'Lịch sử';
+const SBT_WISHlIST_TEXT = 'Yêu thích';
 const SBT_PROFILE_TEXT = 'Cá nhân';
 const SBT_LOGOUT_TEXT = 'Đăng xuất';
 //profile

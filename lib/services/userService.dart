@@ -137,21 +137,22 @@ class UserService{
   Future<List> userWishlist() async{
     String uid = await getUserId();
     QuerySnapshot userRef = await _firestore.collection('users').where('userId',isEqualTo: uid).get();
-
+    print("nhảy vào rồi");
     Map userData = userRef.docs[0].data();
     List userWishList =[];
-
     if(userData.containsKey('wishlist')){
       for(String item in userData['wishlist']){
         Map<String, dynamic> tempWishList = new Map();
         DocumentSnapshot productRef = await _firestore.collection('products').doc(item).get();
+
         tempWishList['productName'] = productRef.data()['name'];
         tempWishList['price'] = productRef.data()['price'];
-        tempWishList['image'] = productRef.data()['image'];
+        tempWishList['image'] = productRef.data()['imageId'];
         tempWishList['productId'] = productRef.id;
         userWishList.add(tempWishList);
       }
     }
+
     return userWishList;
   }
 

@@ -100,7 +100,6 @@ class _EditProfileState extends State<EditProfile> {
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
-
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 10.0),

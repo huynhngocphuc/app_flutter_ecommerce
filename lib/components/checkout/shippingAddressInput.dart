@@ -112,15 +112,15 @@ class _ShippingAddressInputState extends State<ShippingAddressInput> {
               widget.validateInput();
             },
             child: Text(
-              'Lưu 123',
+              'Lưu',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold
               ),
             ),
-            borderSide: BorderSide(color: Colors.black,width: 1.8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+            // borderSided BorderSide(color: Colors.black,width: 1.8),
+            // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           ),
         )
       ],

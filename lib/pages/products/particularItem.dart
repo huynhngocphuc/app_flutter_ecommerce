@@ -1,3 +1,4 @@
+import 'package:app_frontend/services/productService.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_frontend/components/header.dart';
@@ -24,6 +25,7 @@ class ParticularItem extends StatefulWidget {
 class _ParticularItemState extends State<ParticularItem> {
   final GlobalKey<ScaffoldState> _productScaffoldKey = new GlobalKey<ScaffoldState>();
   ShoppingBagService _shoppingBagService = new ShoppingBagService();
+  ProductService _productService = new ProductService();
   UserService _userService = new UserService();
   final GlobalKey<State> keyLoader = new GlobalKey<State>();
 
@@ -158,26 +160,14 @@ class _ParticularItemState extends State<ParticularItem> {
       Navigator.of(context).pushNamed('/checkout/address',arguments: args);
     }
   }
-  addWishList() async{
-    String selectedSize = '';
-    String selectedColor = '';
-    for(Map size in productSizes){
-      if(size.values.toList()[0]) selectedSize = size.keys.toList()[0];
-    }
+  addToWishList() async{
 
-    for(Map color in productColors) {
-      if (color.values.toList()[0])
-        selectedColor = color.toString().substring(11, 17);
-    }
-
-    if(selectedSize == '') showInSnackBar('Select size',Colors.red);
-    else if(selectedColor == '') showInSnackBar('Select color', Colors.red);
-    else{
       bool connectionStatus = await _userService.checkInternetConnectivity();
 
       if(connectionStatus){
+
         Loader.showLoadingScreen(context, keyLoader);
-        String msg = await _shoppingBagService.add(widget.itemDetails['productId'],selectedSize,selectedColor,productQuantity);
+        String msg = await _productService.addItemToWishlist(widget.itemDetails['productId']);
         Navigator.of(keyLoader.currentContext, rootNavigator: true).pop();
         showInSnackBar(msg,Colors.black);
       }
@@ -185,7 +175,6 @@ class _ParticularItemState extends State<ParticularItem> {
         internetConnectionDialog(context);
       }
 
-    }
   }
   addToShoppingBag() async{
     String selectedSize = '';
@@ -213,7 +202,6 @@ class _ParticularItemState extends State<ParticularItem> {
       else{
         internetConnectionDialog(context);
       }
-
     }
   }
 
@@ -221,6 +209,7 @@ class _ParticularItemState extends State<ParticularItem> {
   @override
   void initState() {
     super.initState();
+
     setItemDetails(widget.itemDetails);
   }
 
@@ -231,7 +220,7 @@ class _ParticularItemState extends State<ParticularItem> {
 
     return Scaffold(
       key: _productScaffoldKey,
-      appBar: header('Product Details', _productScaffoldKey, true, context),
+      appBar: header('Thông tin sản phẩm', _productScaffoldKey, true, context),
       drawer: sidebar(context),
       body: SingleChildScrollView(
         child: Container(
@@ -257,7 +246,7 @@ class _ParticularItemState extends State<ParticularItem> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(35)
                 ),
-                color: Colors.red,
+                color: Color(0xfffaf3e3),
                 elevation: 10.0,
                 margin: EdgeInsets.zero,
                 clipBehavior: Clip.antiAlias,
@@ -267,8 +256,9 @@ class _ParticularItemState extends State<ParticularItem> {
                       height: customDimension['productImageHeight'],
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(widget.itemDetails['image']),
-                          fit: BoxFit.fill
+                          // image: NetworkImage(widget.itemDetails['image']),
+                            image:AssetImage(widget.itemDetails['image']),
+                          fit: BoxFit.fitWidth
                         )
                       ),
                     ),
@@ -292,7 +282,7 @@ class _ParticularItemState extends State<ParticularItem> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'T-Shirt',
+                                    'Giá sản phẩm',
                                     style: TextStyle(
                                       fontFamily: 'NovaSquare',
                                       fontSize: SizeConfig.safeBlockHorizontal * 4.5,
@@ -408,7 +398,7 @@ class _ParticularItemState extends State<ParticularItem> {
                               ],
                             ),
                             SizedBox(height: 10.0),
-                            ProductButtons(addToShoppingBag, checkoutProduct),
+                            ProductButtons(addToShoppingBag, addToWishList),
                             SizedBox(height: 10.0),
 
                           ]

@@ -6,6 +6,8 @@ import 'package:app_frontend/services/productService.dart';
 import 'package:app_frontend/components/modals/internetConnection.dart';
 import 'package:app_frontend/services/userService.dart';
 
+import '../loader.dart';
+
 class SnapEffectCarousel extends StatefulWidget {
   @override
   _SnapEffectCarouselState createState() => _SnapEffectCarouselState();
@@ -16,6 +18,8 @@ class _SnapEffectCarouselState extends State<SnapEffectCarousel> {
   List newArrivals = [];
   ProductService _productService = new ProductService();
   UserService _userService = new UserService();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
 
   // _SnapEffectCarouselState(){
   //   listNewArrivals();
@@ -25,10 +29,12 @@ class _SnapEffectCarouselState extends State<SnapEffectCarousel> {
     bool connectionStatus = await _userService.checkInternetConnectivity();
     print("gọi lại listNewArrivals ");
     if(connectionStatus){
+      Loader.showLoadingScreen(context, _keyLoader);
       List<Map<String,String>> newArrivalList = await _productService.newItemArrivals();
       setState(() {
         newArrivals = newArrivalList;
       });
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     }
     else{
       internetConnectionDialog(context);
@@ -93,8 +99,8 @@ class _SnapEffectCarouselState extends State<SnapEffectCarousel> {
                           borderRadius:  BorderRadius.all(Radius.circular(8.0)),
                           image: DecorationImage(
                               image:
-                              // AssetImage("assets/mock_images/products/${item['image']}.jpg")
-                              NetworkImage(item['image']),
+                              AssetImage(item['image']),
+                              // NetworkImage(item['image']),
                               fit: BoxFit.cover
                           ),
                         ),

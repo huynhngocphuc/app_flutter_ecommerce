@@ -26,6 +26,7 @@ class _HorizontalListState extends State<CategoryCarousal> {
   void listCategories() async {
     bool connectionStatus = await _userService.checkInternetConnectivity();
     if(connectionStatus){
+
       _productService.listCategories().then((categories){
         this.setState(() {
           categoryList = categories;

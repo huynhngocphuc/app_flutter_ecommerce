@@ -96,6 +96,7 @@ class CheckoutService {
     });
     
     await _shoppingBagService.delete();
+
   }
   
   Future<List> listPlacedOrder() async {

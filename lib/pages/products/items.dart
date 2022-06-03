@@ -8,6 +8,8 @@ import 'package:app_frontend/services/productService.dart';
 import 'package:app_frontend/services/userService.dart';
 import 'package:app_frontend/components/modals/internetConnection.dart';
 
+import '../../components/loader.dart';
+
 class Items extends StatefulWidget {
   @override
   _ItemsState createState() => _ItemsState();
@@ -16,6 +18,7 @@ class Items extends StatefulWidget {
 class _ItemsState extends State<Items> {
   ProductService _productService = new ProductService();
   UserService _userService = new UserService();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   String heading;
 
   bool showIcon = true;
@@ -43,7 +46,9 @@ class _ItemsState extends State<Items> {
 
     if(connectionStatus){
       String productId = item['productId'];
+      Loader.showLoadingScreen(context, _keyLoader);
       Map itemDetails = await _productService.particularItem(productId);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       Navigator.push(
           context,
           CustomTransition(
@@ -61,6 +66,7 @@ class _ItemsState extends State<Items> {
   }
 
   Widget itemsCard(item){
+    print("item vui vui ${item}");
     return Card(
       elevation: 0,
       semanticContainer: true,
@@ -78,7 +84,7 @@ class _ItemsState extends State<Items> {
                   openParticularItem(item);
                 },
                 child: GridTile(
-                  child: Image.network(
+                  child: Image.asset(
                     item['image'],
                     fit: BoxFit.cover,
                   ),

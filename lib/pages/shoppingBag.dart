@@ -160,6 +160,7 @@ class _ShoppingBagState extends State<ShoppingBag> {
     );
   }
 
+
   nonExistingBagItems(){
     return Container(
       padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
@@ -219,6 +220,7 @@ class _ShoppingBagState extends State<ShoppingBag> {
       itemCount: bagItemList.length,
       itemBuilder: (BuildContext context, int index) {
         var item = bagItemList[index];
+        print("ảnh ${item['image']}");
         return ExpandableNotifier(
             child: Padding(
               padding: const EdgeInsets.all(10),
