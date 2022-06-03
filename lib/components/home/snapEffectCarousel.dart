@@ -29,12 +29,12 @@ class _SnapEffectCarouselState extends State<SnapEffectCarousel> {
     bool connectionStatus = await _userService.checkInternetConnectivity();
     print("gọi lại listNewArrivals ");
     if(connectionStatus){
-      Loader.showLoadingScreen(context, _keyLoader);
+
       List<Map<String,String>> newArrivalList = await _productService.newItemArrivals();
       setState(() {
         newArrivals = newArrivalList;
       });
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     }
     else{
       internetConnectionDialog(context);

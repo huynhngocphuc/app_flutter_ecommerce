@@ -25,7 +25,7 @@ class AlertBox extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 1.0),
               Text(
-                'Alert',
+                'Thông báo',
                 style: TextStyle(
                   fontSize: 26.0,
                   letterSpacing: 1.0,
@@ -61,7 +61,7 @@ class AlertBox extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Close",
+                    "Đóng",
                     style: TextStyle(
                         color: Colors.white
                     ),

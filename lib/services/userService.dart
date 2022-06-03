@@ -10,6 +10,7 @@ class UserService{
   FirebaseAuth _auth;
   FirebaseFirestore _firestore;
   FlutterSecureStorage _storage;
+  GoogleSignInAccount _ggAuth;
 
   UserService(){
     initializeFirebaseApp();
@@ -41,6 +42,11 @@ class UserService{
     }
     else{
       Map<String, dynamic> payload = Jwt.parseJwt(token);
+      print("xem pay load ${payload['user_id']}");
+      if(payload['user_id'] == null)
+        {
+          return payload['sub'];
+        }
       return payload['user_id'];
     }
   }
@@ -57,10 +63,8 @@ class UserService{
     String password = userValues['password'];
     await _auth.signInWithEmailAndPassword(email: email, password: password).then((dynamic user) async{
       final User currentUser = _auth.currentUser;
-      print("xem user hien tai $currentUser");
       String idToken = await currentUser.getIdToken();
       String refreshToken = currentUser.refreshToken;
-      print("xem  token ne $idToken ---------- $refreshToken");
       storeJWTToken(idToken, refreshToken);
       statusCode = 200;
     }).catchError((error){
@@ -68,15 +72,32 @@ class UserService{
     });
   }
 
-  Future<void> loginWithGoogle() async{
+  Future<String> loginWithGoogle() async{
     try {
-      final GoogleSignInAccount googleSignInAccount = await GoogleSignIn().signIn();
-      if (googleSignInAccount != null){
-        print("nhảy vào rồi");
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      _ggAuth = await GoogleSignIn().signIn();
+
+      if (_ggAuth != null){
+        final GoogleSignInAuthentication googleSignInAuthentication = await _ggAuth.authentication;
+        QuerySnapshot data = await _firestore.collection('users').where("userId", isEqualTo: _ggAuth.id).get();
+        if(data.docs.length == 0)
+          {
+            _firestore.collection('users').add({
+              'fullName': _ggAuth.displayName,
+              'mobileNumber': "09",
+              'userId': _ggAuth.id,
+              'email': _ggAuth.email
+            });
+          }
+        else {
+          print("không đăng ký nua");
+        }
+        print("data lấy được ${data.docs[0].data()}");
+        await _storage.write(key: 'email', value: _ggAuth.email);
         String idToken = googleSignInAuthentication.idToken;
         storeJWTToken(idToken, "");
+        print("token ban dau $idToken");
         statusCode = 200;
+        return _ggAuth.email;
       }
     }
     catch(e){
@@ -86,6 +107,7 @@ class UserService{
   }
   Future<String> getUserId() async{
     var token = await _storage.read(key: 'idToken');
+    print("idToken hieenj tai ${token}");
     var uid = validateToken(token);
     return uid;
   }
@@ -129,15 +151,27 @@ class UserService{
     return name;
   }
 
-  String userEmail(){
-    var user = _auth.currentUser;
-    return user.email;
+  Future<String> userEmail() async{
+
+    var checkEmail = _auth.currentUser;
+    var userEmail = "";
+    if(checkEmail == null)
+      {
+        print("xem email lấy $userEmail");
+        userEmail = await _storage.read(key: 'email');
+      }
+    else {
+      userEmail = _auth.currentUser.email;
+    }
+
+    return userEmail;
   }
+
 
   Future<List> userWishlist() async{
     String uid = await getUserId();
     QuerySnapshot userRef = await _firestore.collection('users').where('userId',isEqualTo: uid).get();
-    print("nhảy vào rồi");
+
     Map userData = userRef.docs[0].data();
     List userWishList =[];
     if(userData.containsKey('wishlist')){

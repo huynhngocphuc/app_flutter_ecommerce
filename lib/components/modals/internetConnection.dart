@@ -23,7 +23,7 @@ void internetConnectionDialog(BuildContext context) async{
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text('Oops!',
+                  child: Text('Lỗi!',
                     style: TextStyle(
                       fontFamily: 'NovaSquare',
                       fontSize: 20.0,
@@ -33,14 +33,14 @@ void internetConnectionDialog(BuildContext context) async{
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    'No internet connection found',
+                    'Không có kết nối mạng',
                     style: TextStyle(
                       fontSize: 20.0
                     ),
                   ),
                 ),
                 Text(
-                  'Check your connection',
+                  'Kiểm tra kết nối',
                   style: TextStyle(
                     fontSize: 20.0
                   ),

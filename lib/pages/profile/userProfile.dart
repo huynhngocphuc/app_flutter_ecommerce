@@ -97,7 +97,7 @@ class _UserProfileState extends State<UserProfile> {
 
                   if(connectionStatus){
                     dynamic args = ModalRoute.of(context).settings.arguments;
-                    String email = _userService.userEmail();
+                    String email = await _userService.userEmail();
                     args['email'] = email;
                     Navigator.pushNamed(context, '/profile/edit',arguments: args);
                   }

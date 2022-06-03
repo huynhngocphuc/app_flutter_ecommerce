@@ -8,6 +8,7 @@ import 'package:app_frontend/services/validateService.dart';
 import 'package:app_frontend/components/alertBox.dart';
 import 'package:app_frontend/components/modals/internetConnection.dart';
 import 'package:app_frontend/constants/constantsText.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _LoginState extends State<Login> {
   final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   HashMap userValues = new HashMap<String, String>();
   Map customWidth = new Map<String,double>();
-
+  GoogleSignInAccount _currentUser;
   double borderWidth = 2.0;
 
   ValidateService _validateService = ValidateService();
@@ -37,6 +38,9 @@ class _LoginState extends State<Login> {
         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         int statusCode = _userService.statusCode;
         if(statusCode == 200){
+          // dynamic args = ModalRoute.of(context).settings.arguments;
+          // String email = _userService.userEmail();
+          // args['email'] = email;
           Navigator.pushNamed(context, '/home');
         }
         else{
@@ -57,12 +61,15 @@ class _LoginState extends State<Login> {
   }
   loginWithGoogle() async{
     bool connectionStatus = await _userService.checkInternetConnectivity();
+
     if(connectionStatus){
-      // Loader.showLoadingScreen(context, _keyLoader);
-      await _userService.loginWithGoogle();
-      // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      _formKey.currentState.save();
+      Loader.showLoadingScreen(context, _keyLoader);
+      String email = await _userService.loginWithGoogle();
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       int statusCode = _userService.statusCode;
       if(statusCode == 200){
+
         Navigator.pushNamed(context, '/home');
       }
       else{

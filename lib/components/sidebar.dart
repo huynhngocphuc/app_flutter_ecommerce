@@ -149,7 +149,7 @@ Widget sidebar(BuildContext context){
                   if(connectionStatus){
                     Loader.showLoadingScreen(context, _keyLoader);
                     List userList = await _userService.userWishlist();
-                    print("danh sach yeu thic $userList");
+                    print("danh sach yeu thich $userList");
                     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
                     Navigator.popAndPushNamed(context, '/wishlist',arguments: {'userList':userList});
                   }
