@@ -153,7 +153,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                         placeNewOrder();
                       },
                       child: const Text(
-                          'Đặt hàngs',
+                          'Đặt hàng',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

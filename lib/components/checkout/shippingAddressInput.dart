@@ -65,7 +65,7 @@ class _ShippingAddressInputState extends State<ShippingAddressInput> {
                 FilteringTextInputFormatter.allow(RegExp(r"^[^._]+$")),
                 LengthLimitingTextInputFormatter(10)
               ],
-              validator: (value) => _validateService.isEmptyField(value),
+              validator: (value) => _validateService.validatePhoneNumber(value),
               onSaved: (String val) => widget.addressValues['mobileNumber'] = val
             ),
             data: Theme.of(context).copyWith(primaryColor: Colors.black)

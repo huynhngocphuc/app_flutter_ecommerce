@@ -6,6 +6,10 @@ import 'package:app_frontend/components/alertBox.dart';
 import 'package:app_frontend/services/userService.dart';
 import 'package:app_frontend/services/validateService.dart';
 import 'package:app_frontend/sizeConfig.dart';
+import 'package:flutter/services.dart';
+import 'package:material_dialogs/material_dialogs.dart';
+
+import '../components/loader.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   double borderWidth = 1.0;
   final _signUpFormKey = GlobalKey<FormState>();
   HashMap userValues = new HashMap<String, String>();
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   Map customWidth = new Map<String,double>();
   double fieldPadding;
 
@@ -28,6 +33,40 @@ class _SignUpState extends State<SignUp> {
       borderSide: BorderSide(width: width, color: color),
     );
   }
+  final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+    onPrimary: Colors.black87,
+    primary: Color(0xff1a1c1a),
+    elevation: 16.0,
+
+    minimumSize: Size(88, 36),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+  );
+  void showInSnackBar() {
+    bool hover = false;
+    Dialogs.materialDialog(
+        barrierDismissible: false,
+        color: Colors.white,
+        title: 'Đăng ký thành công',
+        animation: 'assets/congratulation.json',
+        context: context,
+        actions: [
+          ElevatedButton(
+            style: raisedButtonStyle,
+            onPressed: () { Navigator.pushReplacementNamed(context, '/'); },
+            child: Text('Đăng nhập',
+              style: TextStyle(
+                  fontFamily: 'NovaSquare',
+                  fontSize: SizeConfig.safeBlockHorizontal * 5.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              ),),
+          ),
+
+        ]);
+  }
 
   signUpUser() async {
     bool connectionStatus = await userService.checkInternetConnectivity();
@@ -36,17 +75,22 @@ class _SignUpState extends State<SignUp> {
       _signUpFormKey.currentState.save();
 
       if(connectionStatus){
+        Loader.showLoadingScreen(context, _keyLoader);
         await userService.signup(userValues);
         int statusCode = userService.statusCode;
         if (statusCode == 400) {
           AlertBox alertBox = AlertBox(userService.msg);
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
           return showDialog(
               context: context,
               builder: (BuildContext context) {
                 return alertBox.build(context);
               });
         } else {
-          Navigator.pushReplacementNamed(context, '/');
+          Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+          showInSnackBar();
+
+
         }
       }
       else{
@@ -185,6 +229,10 @@ class _SignUpState extends State<SignUp> {
                       TextFormField(
                         decoration: this.customFormField('SĐT'),
                         keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r"^[^._]+$")),
+                          LengthLimitingTextInputFormatter(10)
+                        ],
                         validator: (value) =>
                             validateService.validatePhoneNumber(value),
                         onSaved: (String val) {

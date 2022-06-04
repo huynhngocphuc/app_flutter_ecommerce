@@ -11,12 +11,17 @@ class ValidateService{
   String validatePhoneNumber(String value){
     String isEmpty = isEmptyField(value);
     int len = value.length;
-
+    String pattern = r'^(?:[+0]9)?[0-9]{10}$';
+    RegExp regExp = new RegExp(pattern);
     if(isEmpty != null){
       return isEmpty;
     }
-    else if(len != 10){
-      return TV_PHONE_VALIDATE_TEXT;
+    // else if(len != 10){
+    //   return TV_PHONE_VALIDATE_TEXT;
+    // }
+    else if(!regExp.hasMatch(value)){
+          return "Số điện thoại không đúng";
+
     }
     return null;
   }

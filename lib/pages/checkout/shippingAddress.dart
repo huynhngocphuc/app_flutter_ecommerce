@@ -120,7 +120,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                   });
                 },
                 child: Text(
-                  'Thêm mới nè',
+                  'Thêm mới',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,

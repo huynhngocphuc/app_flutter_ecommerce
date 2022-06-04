@@ -68,13 +68,7 @@ class _ShoppingBagExpandedListState extends State<ShoppingBagExpandedList> {
                               color: Color(int.parse("0xFF${widget.item['selectedColor']}")),
                               shape: BoxShape.circle),
                         ),
-                        // Text(
-                        //   // widget.colorList(widget.item['selectedColor']),
-                        //   "${widget.item['selectedColor']}",
-                        //   style: TextStyle(
-                        //       fontSize: 18.0
-                        //   ),
-                        // )
+
                       ],
                     )
                 ),

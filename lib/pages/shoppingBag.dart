@@ -220,7 +220,7 @@ class _ShoppingBagState extends State<ShoppingBag> {
       itemCount: bagItemList.length,
       itemBuilder: (BuildContext context, int index) {
         var item = bagItemList[index];
-        print("ảnh ${item['image']}");
+
         return ExpandableNotifier(
             child: Padding(
               padding: const EdgeInsets.all(10),
@@ -247,7 +247,7 @@ class _ShoppingBagState extends State<ShoppingBag> {
                                   ),
                                   height: 100.0,
                                   width: 120.0,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.fitWidth,
                                 ),
                                 Expanded(
                                   child: Padding(

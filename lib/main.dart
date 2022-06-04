@@ -9,8 +9,7 @@ import 'package:app_frontend/components/shop.dart';
 import 'package:app_frontend/pages/products/items.dart';
 import 'package:app_frontend/pages/products/subCategory.dart';
 import 'package:app_frontend/pages/shoppingBag.dart';
-import 'package:app_frontend/pages/checkout/addCreditCard.dart';
-import 'package:app_frontend/pages/checkout/paymentMethod.dart';
+
 import 'package:app_frontend/pages/checkout/shippingAddress.dart';
 import 'package:app_frontend/pages/checkout/shippingMethod.dart';
 import 'package:app_frontend/pages/products/particularItem.dart';
@@ -44,6 +43,8 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: firstTime ? '/': '/OnBoardingScreen',
+      // initialRoute: '/admin',
+
       routes: {
         '/': (context) => Start(),
         '/login': (context) => Login(),
@@ -55,10 +56,8 @@ class Main extends StatelessWidget {
         '/particularItem': (context) => ParticularItem(),
         '/bag': (context) => ShoppingBag(),
         '/wishlist': (context) => WishList(),
-        '/checkout/addCreditCard': (context) => AddCreditCard(),
         '/checkout/address': (context) => ShippingAddress(),
         '/checkout/shippingMethod': (context) => ShippingMethod(),
-        '/checkout/paymentMethod': (context) => PaymentMethod(),
         '/checkout/placeOrder': (context) => PlaceOrder(),
         '/profile': (context) => UserProfile(),
         '/profile/settings': (context) => ProfileSetting(),

@@ -63,11 +63,8 @@ class _OrderHistoryState extends State<OrderHistory> {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/mock_images/products/${item[0]['productImage']}.jpg"),
-                            fit: BoxFit.fill,
-                            // colorFilter: ColorFilter.mode(
-                            //   Color.fromRGBO(90,90,90, 0.8),
-                            //   BlendMode.modulate
-                            // )
+                            fit: BoxFit.fitWidth,
+
                           )
                         ),
                         child: Stack(
@@ -102,7 +99,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                             ),
                             Center(
                               child: Text(
-                                'Order Placed',
+                                'Đã đặt hàng',
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontFamily: 'Novasquare',
